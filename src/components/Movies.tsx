@@ -67,13 +67,17 @@ const Movies = () => {
     setMovieDetails(prev => !prev);
   };
 
+  console.log('state', state);
+
   return (
     <div>
-      <Search
-        value={state.search}
-        onChange={handleSearchInput}
-        search={onSearch}
-      />
+      <div>
+        <Search
+          value={state.search}
+          onChange={handleSearchInput}
+          search={onSearch}
+        />
+      </div>
 
       {movieDetails ? (
         <MovieDetails movie={state.selected} close={closeMovieDetails} />
