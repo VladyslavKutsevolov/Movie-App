@@ -80,7 +80,10 @@ const useStyles = makeStyles({
   },
   buttonBack: {
     background: '#F29E18',
-    margin: '1rem 1rem 0 0'
+    margin: '1rem 1rem 0 0',
+    '&:hover': {
+      background: '#c17b0b'
+    }
   }
 });
 

@@ -52,7 +52,7 @@ const Result = (props: Props) => {
           </CardActionArea>
         </Card>
         <Typography className={classes.title} variant="h6" component="p">
-          {movie.Title}({movie.Year})
+          {movie.Title} ({movie.Year})
         </Typography>
       </div>
     </Grow>
