@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import { IResults } from './Movies';
@@ -20,12 +20,23 @@ const useStyles = makeStyles({
 
 const Results = (props: Props) => {
   const { movies, chooseMovie } = props;
+  const [animateCard, setAnimateCard] = useState<boolean>(false);
+
   const classes = useStyles();
+
+  useEffect(() => {
+    setAnimateCard(true);
+  }, []);
 
   return (
     <section className={classes.grid}>
       {movies.map(movie => (
-        <Result key={movie.imdbID} movie={movie} chooseMovie={chooseMovie} />
+        <Result
+          key={movie.imdbID}
+          animateCard={animateCard}
+          movie={movie}
+          chooseMovie={chooseMovie}
+        />
       ))}
     </section>
   );
