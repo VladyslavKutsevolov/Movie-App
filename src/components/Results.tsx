@@ -8,6 +8,7 @@ import Result from './Result';
 interface Props {
   movies: IResults[];
   chooseMovie: (id: string) => void;
+  moviesPerPage: number;
 }
 
 const useStyles = makeStyles({
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 const Results = (props: Props) => {
-  const { movies, chooseMovie } = props;
+  const { movies, chooseMovie, moviesPerPage } = props;
   const [animateCard, setAnimateCard] = useState<boolean>(false);
 
   const classes = useStyles();
@@ -29,15 +30,17 @@ const Results = (props: Props) => {
   }, []);
 
   return (
-    <section className={classes.grid}>
-      {movies.map(movie => (
-        <Result
-          key={movie.imdbID}
-          animateCard={animateCard}
-          movie={movie}
-          chooseMovie={chooseMovie}
-        />
-      ))}
+    <section>
+      <div className={classes.grid}>
+        {movies.map(movie => (
+          <Result
+            key={movie.imdbID}
+            animateCard={animateCard}
+            movie={movie}
+            chooseMovie={chooseMovie}
+          />
+        ))}
+      </div>
     </section>
   );
 };
