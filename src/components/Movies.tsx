@@ -1,5 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
+
+import { Slide } from '@material-ui/core';
+
 import Search from './Search';
 import Results from './Results';
 import MovieDetails from './MovieDetails';
@@ -25,6 +28,7 @@ const Movies = () => {
     selected: {}
   });
   const [movieDetails, setMovieDetails] = useState<boolean>(false);
+  const [slideSearch, setSlideSearch] = useState<boolean>(false);
 
   const apiURL = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
 
@@ -32,15 +36,14 @@ const Movies = () => {
     setState(prevState => ({ ...prevState, search: target.value }));
   };
 
-  const onSearch = async (e: KeyboardEvent) => {
-    console.log(e.key);
-    if (e.key === 'Enter') {
-      try {
-        const { data } = await axios.get(`${apiURL}&s=${state.search}`);
-        setState({ ...state, movies: data.Search });
-      } catch (e) {
-        console.log('err', e);
-      }
+  const onSearch = async (e: FormEvent) => {
+    e.preventDefault();
+    setSlideSearch(true);
+    try {
+      const { data } = await axios.get(`${apiURL}&s=${state.search}`);
+      setState({ ...state, movies: data.Search || [] });
+    } catch (e) {
+      console.log('err', e);
     }
   };
 
@@ -53,7 +56,6 @@ const Movies = () => {
       });
 
       setMovieDetails(prev => !prev);
-      console.log('openMovieDetails', data);
     } catch (e) {
       console.log('err', e);
     }
@@ -67,8 +69,6 @@ const Movies = () => {
     setMovieDetails(prev => !prev);
   };
 
-  console.log('state', state);
-
   return (
     <div>
       <div>
@@ -76,6 +76,7 @@ const Movies = () => {
           value={state.search}
           onChange={handleSearchInput}
           search={onSearch}
+          slideSearch={slideSearch}
         />
       </div>
 
