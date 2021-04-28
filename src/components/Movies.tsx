@@ -1,4 +1,10 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState
+} from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core';
 
@@ -6,6 +12,7 @@ import Search from './Search';
 import Results from './Results';
 import MovieDetails from './MovieDetails';
 import Pagination from './Pagination';
+import { FavMovie, IMovies, IState } from '../App';
 
 const useStyles = makeStyles({
   results: {
@@ -15,36 +22,39 @@ const useStyles = makeStyles({
   }
 });
 
-export interface IResults {
-  Poster: string;
-  Title: string;
-  Type: string;
-  Year: string;
-  imdbID: string;
+interface Props {
+  state: IState;
+  setState: (props: any) => void;
+  apiURL: string;
+  setMovieDetails: (val: (prev: boolean) => boolean) => void;
+  moviesPerPage: number;
+  movieDetails: boolean;
+  openMovieDetails: (id: string) => void;
+  slideSearch: boolean;
+  setSlideSearch: (v: boolean) => void;
+  setFavMovies: (movie: (prev: FavMovie) => { movies: IMovies[] }) => void;
+  favMovies: FavMovie;
 }
 
-interface IState {
-  search: string;
-  movies: IResults[];
-  selected: any;
-}
-
-const Movies = () => {
+const Movies = (props: Props) => {
+  const {
+    state,
+    setState,
+    apiURL,
+    setMovieDetails,
+    moviesPerPage,
+    movieDetails,
+    openMovieDetails,
+    slideSearch,
+    setSlideSearch,
+    favMovies,
+    setFavMovies
+  } = props;
   const classes = useStyles();
-  const [state, setState] = useState<IState>({
-    search: '',
-    movies: [],
-    selected: {}
-  });
-  const [movieDetails, setMovieDetails] = useState<boolean>(false);
-  const [slideSearch, setSlideSearch] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
-  const [moviesPerPage] = useState<number>(6);
-
-  const apiURL = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
 
   const handleSearchInput = ({ target }: ChangeEvent<{ value: string }>) => {
-    setState(prevState => ({ ...prevState, search: target.value }));
+    setState((prevState: any) => ({ ...prevState, search: target.value }));
   };
 
   const onSearch = async (e: FormEvent) => {
@@ -59,17 +69,11 @@ const Movies = () => {
     }
   };
 
-  const openMovieDetails = async (id: string) => {
-    try {
-      const { data } = await axios.get(`${apiURL}&i=${id}`);
-      setState({
-        ...state,
-        selected: data
-      });
-
-      setMovieDetails(prev => !prev);
-    } catch (e) {
-      console.log('err', e);
+  const addToFavorite = () => {
+    if (state.selected) {
+      setFavMovies(prev => ({
+        movies: [...prev.movies, state.selected]
+      }));
     }
   };
 
@@ -80,6 +84,15 @@ const Movies = () => {
     });
     setMovieDetails(prev => !prev);
   };
+
+  const pushToLocalStorage = useCallback(() => {
+    console.log('fire local');
+    localStorage.setItem('favorite-movies', JSON.stringify(favMovies));
+  }, [favMovies.movies.length]);
+
+  useEffect(() => {
+    pushToLocalStorage();
+  }, [favMovies.movies.length]);
 
   const indexOfLastPage = page * moviesPerPage;
   const indexOfFirstPoster = indexOfLastPage - moviesPerPage;
@@ -102,7 +115,11 @@ const Movies = () => {
       </div>
 
       {movieDetails ? (
-        <MovieDetails movie={state.selected} close={closeMovieDetails} />
+        <MovieDetails
+          addToFavorite={addToFavorite}
+          movie={state.selected}
+          close={closeMovieDetails}
+        />
       ) : (
         <div className={classes.results}>
           <Results

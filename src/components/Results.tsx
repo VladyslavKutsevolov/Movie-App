@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
-import { IResults } from './Movies';
+import { IMovies } from '../App';
 
 import Result from './Result';
-
-interface Props {
-  movies: IResults[];
-  chooseMovie: (id: string) => void;
-  moviesPerPage: number;
-}
 
 const useStyles = makeStyles({
   grid: {
@@ -18,6 +12,12 @@ const useStyles = makeStyles({
     justifyItems: 'center'
   }
 });
+
+interface Props {
+  movies: IMovies[];
+  chooseMovie: (id: string) => void;
+  moviesPerPage: number;
+}
 
 const Results = (props: Props) => {
   const { movies, chooseMovie } = props;

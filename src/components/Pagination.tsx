@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/core';
 
 import Pagination from '@material-ui/lab/Pagination';
-import { IResults } from './Movies';
+import { IMovies } from '../App';
 
 const useStyles = makeStyles({
   pagination: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  movies: IResults[];
+  movies: IMovies[];
   moviesPerPage: number;
   page: number;
   setPage: (page: number) => void;

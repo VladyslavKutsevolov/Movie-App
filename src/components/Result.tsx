@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core';
 
-import { IResults } from './Movies';
+import { IMovies } from '../App';
 
 const useStyles = makeStyles({
   root: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  movie: IResults;
+  movie: IMovies;
   chooseMovie: (id: string) => void;
   animateCard: boolean;
 }

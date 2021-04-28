@@ -1,38 +1,7 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
-
-interface IMovie {
-  Actors: string;
-  Awards: string;
-  BoxOffice: string;
-  Country: string;
-  DVD: string;
-  Director: string;
-  Genre: string;
-  Language: string;
-  Metascore: string;
-  Plot: string;
-  Poster: string;
-  Production: string;
-  Rated: string;
-  Ratings: any[];
-  Released: string;
-  Response: string;
-  Runtime: string;
-  Title: string;
-  Type: string;
-  Website: string;
-  Writer: string;
-  Year: string;
-  imdbID: string;
-  imdbRaring: string;
-  imdnVotes: string;
-}
-
-interface Props {
-  movie: IMovie;
-  close: () => void;
-}
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const useStyles = makeStyles({
   root: {
@@ -87,8 +56,42 @@ const useStyles = makeStyles({
   }
 });
 
+export interface IMovie {
+  Actors: string;
+  Awards: string;
+  BoxOffice: string;
+  Country: string;
+  DVD: string;
+  Director: string;
+  Genre: string;
+  Language: string;
+  Metascore: string;
+  Plot: string;
+  Poster: string;
+  Production: string;
+  Rated: string;
+  Ratings: any[];
+  Released: string;
+  Response: string;
+  Runtime: string;
+  Title: string;
+  Type: string;
+  Website: string;
+  Writer: string;
+  Year: string;
+  imdbID: string;
+  imdbRaring: string;
+  imdnVotes: string;
+}
+
+interface Props {
+  movie: IMovie;
+  close: () => void;
+  addToFavorite: () => void;
+}
+
 const MovieDetails = (props: Props) => {
-  const { movie, close } = props;
+  const { movie, close, addToFavorite } = props;
   const classes = useStyles();
 
   return (
@@ -110,7 +113,7 @@ const MovieDetails = (props: Props) => {
           </Grid>
           <Grid item className={classes.movieDescription}>
             <Typography variant="h3" component="h2">
-              {movie.Title}
+              {movie.Title} <StarBorderIcon onClick={addToFavorite} />
             </Typography>
             <Typography variant="body1" component="p">
               <b>Rated:</b> {movie.Rated}
