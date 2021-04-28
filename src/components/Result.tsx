@@ -1,14 +1,10 @@
 import React from 'react';
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
-  CardContent,
   CardMedia,
-  makeStyles,
-  Typography,
-  Grid
+  Grow,
+  makeStyles
 } from '@material-ui/core';
 
 import { IResults } from './Movies';
@@ -16,6 +12,7 @@ import { IResults } from './Movies';
 interface Props {
   movie: IResults;
   chooseMovie: (id: string) => void;
+  animateCard: boolean;
 }
 
 const useStyles = makeStyles({
@@ -31,20 +28,22 @@ const useStyles = makeStyles({
 });
 
 const Result = (props: Props) => {
-  const { movie, chooseMovie } = props;
+  const { movie, chooseMovie, animateCard } = props;
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.img}
-          image={movie.Poster}
-          component="img"
-          title="movie"
-          onClick={() => chooseMovie(movie.imdbID)}
-        />
-      </CardActionArea>
-    </Card>
+    <Grow in={animateCard}>
+      <Card className={classes.root}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.img}
+            image={movie.Poster}
+            component="img"
+            title="movie"
+            onClick={() => chooseMovie(movie.imdbID)}
+          />
+        </CardActionArea>
+      </Card>
+    </Grow>
   );
 };
 
