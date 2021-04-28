@@ -37,20 +37,22 @@ interface Props {
 const useStyles = makeStyles({
   root: {
     margin: '2rem',
-    padding: '1rem'
+    padding: '1rem',
+    backgroundColor: '#454545'
   },
   poster: {
     flexBasis: '20%'
   },
   movieDescription: {
-    flexBasis: '70%'
+    flexBasis: '70%',
+    color: '#fff'
   },
   movieDetails: {
     flexDirection: 'column'
   },
   genre: {
-    backgroundColor: '#ccc',
-    color: '#fff',
+    backgroundColor: '#fff',
+    color: '#454545',
     padding: '.5rem',
     marginRight: '.5rem',
     marginTop: '1rem',
@@ -70,8 +72,14 @@ const useStyles = makeStyles({
   plot: {
     marginTop: '3rem'
   },
+  backToSearch: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    justifyItems: 'center'
+  },
   buttonBack: {
-    marginLeft: '2rem'
+    background: '#F29E18',
+    margin: '1rem 1rem 0 0'
   }
 });
 
@@ -81,15 +89,17 @@ const MovieDetails = (props: Props) => {
 
   return (
     <section>
-      <Button
-        className={classes.buttonBack}
-        variant="contained"
-        color="primary"
-        onClick={close}
-      >
-        Back to Search
-      </Button>
-      <Paper className={classes.root}>
+      <div className={classes.backToSearch}>
+        <Button
+          className={classes.buttonBack}
+          variant="contained"
+          color="primary"
+          onClick={close}
+        >
+          Back to Search
+        </Button>
+      </div>
+      <div className={classes.root}>
         <Grid container>
           <Grid item className={classes.poster}>
             <img src={movie.Poster} alt="movie" />
@@ -149,7 +159,7 @@ const MovieDetails = (props: Props) => {
             </Typography>
           </Grid>
         </Grid>
-      </Paper>
+      </div>
     </section>
   );
 };

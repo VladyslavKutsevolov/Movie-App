@@ -4,10 +4,29 @@ import {
   CardActionArea,
   CardMedia,
   Grow,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 
 import { IResults } from './Movies';
+
+const useStyles = makeStyles({
+  root: {
+    width: '20em',
+    margin: 'auto'
+  },
+  img: {
+    height: 400,
+    backgroundSize: 'cover'
+  },
+  title: {
+    width: '15em',
+    textAlign: 'center',
+    color: '#fff',
+    marginBottom: '1em',
+    marginTop: '1rem'
+  }
+});
 
 interface Props {
   movie: IResults;
@@ -15,34 +34,27 @@ interface Props {
   animateCard: boolean;
 }
 
-const useStyles = makeStyles({
-  root: {
-    width: '20em',
-    marginBottom: '1em',
-    borderRadius: '15px'
-  },
-  img: {
-    height: 400,
-    backgroundSize: 'cover'
-  }
-});
-
 const Result = (props: Props) => {
   const { movie, chooseMovie, animateCard } = props;
   const classes = useStyles();
   return (
     <Grow in={animateCard}>
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.img}
-            image={movie.Poster}
-            component="img"
-            title="movie"
-            onClick={() => chooseMovie(movie.imdbID)}
-          />
-        </CardActionArea>
-      </Card>
+      <div>
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.img}
+              image={movie.Poster}
+              component="img"
+              title="movie"
+              onClick={() => chooseMovie(movie.imdbID)}
+            />
+          </CardActionArea>
+        </Card>
+        <Typography className={classes.title} variant="h6" component="p">
+          {movie.Title}({movie.Year})
+        </Typography>
+      </div>
     </Grow>
   );
 };

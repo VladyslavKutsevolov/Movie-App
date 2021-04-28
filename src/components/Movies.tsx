@@ -41,7 +41,7 @@ const Movies = () => {
     setSlideSearch(true);
     try {
       const { data } = await axios.get(`${apiURL}&s=${state.search}`);
-      setState({ ...state, movies: data.Search || [] });
+      setState({ ...state, movies: data.Search || [], search: '' });
     } catch (e) {
       console.log('err', e);
     }
@@ -72,12 +72,14 @@ const Movies = () => {
   return (
     <div>
       <div>
-        <Search
-          value={state.search}
-          onChange={handleSearchInput}
-          search={onSearch}
-          slideSearch={slideSearch}
-        />
+        {!movieDetails && (
+          <Search
+            value={state.search}
+            onChange={handleSearchInput}
+            search={onSearch}
+            slideSearch={slideSearch}
+          />
+        )}
       </div>
 
       {movieDetails ? (
