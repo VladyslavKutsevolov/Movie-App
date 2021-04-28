@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import { IMovies } from '../App';
 
 const useStyles = makeStyles({
   root: {
@@ -88,10 +89,14 @@ interface Props {
   movie: IMovie;
   close: () => void;
   addToFavorite: () => void;
+  removeFormFavorite: (id: string) => void;
+  favMovies: IMovies[];
 }
 
 const MovieDetails = (props: Props) => {
-  const { movie, close, addToFavorite } = props;
+  const { movie, close, addToFavorite, removeFormFavorite, favMovies } = props;
+  const isFavorite = favMovies.find(m => m.imdbID === movie.imdbID);
+
   const classes = useStyles();
 
   return (
@@ -113,7 +118,12 @@ const MovieDetails = (props: Props) => {
           </Grid>
           <Grid item className={classes.movieDescription}>
             <Typography variant="h3" component="h2">
-              {movie.Title} <StarBorderIcon onClick={addToFavorite} />
+              {movie.Title}
+              {isFavorite ? (
+                <StarIcon onClick={() => removeFormFavorite(movie.imdbID)} />
+              ) : (
+                <StarBorderIcon onClick={addToFavorite} />
+              )}
             </Typography>
             <Typography variant="body1" component="p">
               <b>Rated:</b> {movie.Rated}

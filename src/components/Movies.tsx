@@ -77,6 +77,12 @@ const Movies = (props: Props) => {
     }
   };
 
+  const removeFormFavorite = (id: string) => {
+    setFavMovies(prev => ({
+      movies: prev.movies.filter(movie => movie.imdbID !== id)
+    }));
+  };
+
   const closeMovieDetails = () => {
     setState({
       ...state,
@@ -100,6 +106,7 @@ const Movies = (props: Props) => {
     indexOfFirstPoster,
     indexOfLastPage
   );
+  console.log('movieDetails', movieDetails);
 
   return (
     <div>
@@ -117,7 +124,9 @@ const Movies = (props: Props) => {
       {movieDetails ? (
         <MovieDetails
           addToFavorite={addToFavorite}
+          removeFormFavorite={removeFormFavorite}
           movie={state.selected}
+          favMovies={favMovies.movies}
           close={closeMovieDetails}
         />
       ) : (

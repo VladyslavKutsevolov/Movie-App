@@ -55,6 +55,8 @@ function App() {
     }
   };
 
+  console.log('state', state);
+
   return (
     <div className="App">
       <NavBar />
