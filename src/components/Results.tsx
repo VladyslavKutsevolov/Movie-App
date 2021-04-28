@@ -14,13 +14,13 @@ interface Props {
 const useStyles = makeStyles({
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(30rem, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(20rem, 1fr))',
     justifyItems: 'center'
   }
 });
 
 const Results = (props: Props) => {
-  const { movies, chooseMovie, moviesPerPage } = props;
+  const { movies, chooseMovie } = props;
   const [animateCard, setAnimateCard] = useState<boolean>(false);
 
   const classes = useStyles();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 
 interface IMovie {
   Actors: string;
@@ -45,7 +45,8 @@ const useStyles = makeStyles({
   },
   movieDescription: {
     flexBasis: '70%',
-    color: '#fff'
+    color: '#fff',
+    padding: '0 1rem'
   },
   movieDetails: {
     flexDirection: 'column'

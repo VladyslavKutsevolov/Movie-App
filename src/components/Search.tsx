@@ -3,7 +3,6 @@ import {
   createStyles,
   InputAdornment,
   makeStyles,
-  Slide,
   TextField,
   Theme
 } from '@material-ui/core';

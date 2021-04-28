@@ -39,7 +39,7 @@ const Movies = () => {
   const [movieDetails, setMovieDetails] = useState<boolean>(false);
   const [slideSearch, setSlideSearch] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
-  const [moviesPerPage, setMoviesPerPage] = useState<number>(6);
+  const [moviesPerPage] = useState<number>(6);
 
   const apiURL = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
 
@@ -50,6 +50,7 @@ const Movies = () => {
   const onSearch = async (e: FormEvent) => {
     e.preventDefault();
     setSlideSearch(true);
+    setPage(1);
     try {
       const { data } = await axios.get(`${apiURL}&s=${state.search}`);
       setState({ ...state, movies: data.Search || [], search: '' });
