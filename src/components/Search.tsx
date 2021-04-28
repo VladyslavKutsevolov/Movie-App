@@ -1,19 +1,40 @@
 import React, { ChangeEvent } from 'react';
 import {
-  Button,
   createStyles,
+  InputAdornment,
   makeStyles,
+  Slide,
   TextField,
   Theme
 } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '60%'
-      }
+    textField: {
+      width: '100%',
+      backgroundColor: '#fff',
+      borderRadius: '4px'
+    },
+    form: {
+      width: '60%'
+    },
+    textFieldSection: {
+      marginTop: '20rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    slideUp: {
+      marginTop: '3rem',
+      marginBottom: '2rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      transaction: 'all 1s ease-in-out'
+    },
+    searchIcon: {
+      position: 'absolute'
     }
   })
 );
@@ -22,25 +43,34 @@ interface IProps {
   value: string;
   onChange: (val: ChangeEvent<{ value: string }>) => void;
   search: (e: any) => void;
+  slideSearch: boolean;
 }
 
 const Search = (props: IProps) => {
-  const { onChange, value, search } = props;
+  const { onChange, value, search, slideSearch } = props;
   const classes = useStyles();
 
   return (
-    <section>
-      <TextField
-        variant="outlined"
-        type="text"
-        placeholder="Search for a movie"
-        value={value}
-        onChange={onChange}
-        onKeyPress={search}
-      />
-      <Button variant="contained" color="primary" type="submit">
-        Search
-      </Button>
+    <section
+      className={slideSearch ? classes.slideUp : classes.textFieldSection}
+    >
+      <form onSubmit={search} className={classes.form}>
+        <TextField
+          required
+          variant="outlined"
+          placeholder="Search for a movie"
+          value={value}
+          onChange={onChange}
+          className={classes.textField}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
+        />
+      </form>
     </section>
   );
 };
