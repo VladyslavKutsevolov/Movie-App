@@ -7,6 +7,7 @@ import Movies from './components/Movies';
 import NavBar from './components/NavBar';
 import FavMovies from './components/FavMovies';
 import MovieDetails, { IMovie } from './components/MovieDetails';
+import HeroSection from './components/HeroSection';
 
 export interface IMovies {
   Poster: string;
@@ -60,6 +61,9 @@ function App() {
       <Container>
         <Switch>
           <Route exact path="/">
+            <HeroSection />
+          </Route>
+          <Route path="/browse">
             <Movies
               loading={loading}
               error={error}
