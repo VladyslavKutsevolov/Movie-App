@@ -6,6 +6,7 @@ import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { apiURL, IMovies } from '../App';
+import AlertComponent from './Alert';
 
 const useStyles = makeStyles({
   root: {
@@ -61,6 +62,9 @@ const useStyles = makeStyles({
   back: {
     color: '#fff',
     textDecoration: 'none'
+  },
+  star: {
+    color: '#F29E18'
   }
 });
 
@@ -96,10 +100,22 @@ interface Props {
   addToFavorite: (movie: IMovie) => void;
   removeFormFavorite: (id: string) => void;
   favMovies: IMovies[];
+  loading: boolean;
+  error: { msg: string };
+  setError: (prev: any) => void;
+  setLoading: (v: (prev: boolean) => boolean) => void;
 }
 
 const MovieDetails = (props: Props) => {
-  const { addToFavorite, removeFormFavorite, favMovies } = props;
+  const {
+    addToFavorite,
+    removeFormFavorite,
+    favMovies,
+    error,
+    setError,
+    loading,
+    setLoading
+  } = props;
   const [movie, setMovie] = useState<IMovie>({
     Actors: '',
     Awards: '',
@@ -133,18 +149,30 @@ const MovieDetails = (props: Props) => {
   const movieId = useLocation().pathname.split('=')[1];
 
   useEffect(() => {
+    setLoading(prev => !prev);
+    setError({ msg: '' });
     const openMovieDetails = async (id: string) => {
       try {
         const { data } = await axios.get(`${apiURL}&i=${id}`);
+        if (data.Error) {
+          setLoading(prev => !prev);
+          setError({ msg: data.Error });
+          return;
+        }
         setMovie(data);
+
+        setLoading(prev => !prev);
+        setError({ msg: '' });
       } catch (e) {
-        console.log('err', e);
+        setLoading(prev => !prev);
+        setError({ msg: e.message });
       }
     };
     openMovieDetails(movieId);
   }, []);
 
   const pushToLocalStorage = useCallback(() => {
+    console.log('fire event');
     localStorage.setItem('favorite-movies', JSON.stringify(favMovies));
   }, [favMovies.length]);
 
@@ -152,85 +180,105 @@ const MovieDetails = (props: Props) => {
     pushToLocalStorage();
   }, [favMovies.length]);
 
+  if (loading && !error.msg) {
+    return <AlertComponent message="Loading" type="info" />;
+  }
+
   return (
     <section>
-      <div className={classes.backToSearch}>
-        <Button
-          className={classes.buttonBack}
-          variant="contained"
-          color="primary"
-        >
-          <Link className={classes.back} to="/">
-            Back to Search
-          </Link>
-        </Button>
-      </div>
-      <div className={classes.root}>
-        <Grid container>
-          <Grid item className={classes.poster}>
-            <img src={movie.Poster} alt="movie" />
-          </Grid>
-          <Grid item className={classes.movieDescription}>
-            <Typography variant="h3" component="h2">
-              {movie.Title}
-              {isFavorite ? (
-                <StarIcon onClick={() => removeFormFavorite(movie.imdbID)} />
-              ) : (
-                <StarBorderIcon onClick={() => addToFavorite(movie)} />
-              )}
-            </Typography>
-            <Typography variant="body1" component="p">
-              <b>Rated:</b> {movie.Rated}
-            </Typography>
-            <Grid container className={classes.movieDetails}>
-              <Grid item>
+      {error.msg && <AlertComponent message={error.msg} type="error" />}
+      {movie.Title ? (
+        <>
+          {' '}
+          <div className={classes.backToSearch}>
+            <Button
+              className={classes.buttonBack}
+              variant="contained"
+              color="primary"
+            >
+              <Link className={classes.back} to="/">
+                Back to Search
+              </Link>
+            </Button>
+          </div>
+          <div className={classes.root}>
+            <Grid container>
+              <Grid item className={classes.poster}>
+                <img src={movie.Poster} alt="movie" />
+              </Grid>
+              <Grid item className={classes.movieDescription}>
+                <Typography variant="h3" component="h2">
+                  {movie.Title}
+                  {isFavorite ? (
+                    <StarIcon
+                      className={classes.star}
+                      onClick={() => removeFormFavorite(movie.imdbID)}
+                    />
+                  ) : (
+                    <StarBorderIcon
+                      className={classes.star}
+                      onClick={() => addToFavorite(movie)}
+                    />
+                  )}
+                </Typography>
+                <Typography variant="body1" component="p">
+                  <b>Rated:</b> {movie.Rated}
+                </Typography>
+                <Grid container className={classes.movieDetails}>
+                  <Grid item>
+                    <Typography
+                      className={classes.body1}
+                      variant="body1"
+                      component="span"
+                    >
+                      <b>Release Date:</b> {movie.Released}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body1" component="span">
+                      <b>Director:</b>
+                      {movie.Director}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body1" component="span">
+                      <b>Runtime:</b> {movie.Runtime}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body1" component="span">
+                      <b>Production:</b> {movie.Production}
+                    </Typography>
+                  </Grid>
+                </Grid>
                 <Typography
-                  className={classes.body1}
+                  className={classes.genreTitle}
                   variant="body1"
-                  component="span"
+                  component="p"
                 >
-                  <b>Release Date:</b> {movie.Released}
+                  <b>Genres:</b>{' '}
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" component="span">
-                  <b>Director:</b>
-                  {movie.Director}
+                <Typography variant="body1" component="p">
+                  {movie.Genre.replace(/,/g, '')
+                    .split(' ')
+                    .map(genre => (
+                      <span className={classes.genre} key={genre}>
+                        {genre}
+                      </span>
+                    ))}
                 </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" component="span">
-                  <b>Runtime:</b> {movie.Runtime}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" component="span">
-                  <b>Production:</b> {movie.Production}
+                <Typography
+                  className={classes.plot}
+                  variant="body1"
+                  component="p"
+                >
+                  {movie.Plot}
                 </Typography>
               </Grid>
             </Grid>
-            <Typography
-              className={classes.genreTitle}
-              variant="body1"
-              component="p"
-            >
-              <b>Genres:</b>{' '}
-            </Typography>
-            <Typography variant="body1" component="p">
-              {movie.Genre.replace(/,/g, '')
-                .split(' ')
-                .map(genre => (
-                  <span className={classes.genre} key={genre}>
-                    {genre}
-                  </span>
-                ))}
-            </Typography>
-            <Typography className={classes.plot} variant="body1" component="p">
-              {movie.Plot}
-            </Typography>
-          </Grid>
-        </Grid>
-      </div>
+          </div>
+        </>
+      ) : null}
     </section>
   );
 };
