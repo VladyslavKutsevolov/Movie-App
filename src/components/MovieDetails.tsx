@@ -1,8 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useLocation, Link } from 'react-router-dom';
+
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import { IMovies } from '../App';
+import { apiURL, IMovies } from '../App';
 
 const useStyles = makeStyles({
   root: {
@@ -54,6 +57,10 @@ const useStyles = makeStyles({
     '&:hover': {
       background: '#c17b0b'
     }
+  },
+  back: {
+    color: '#fff',
+    textDecoration: 'none'
   }
 });
 
@@ -86,18 +93,64 @@ export interface IMovie {
 }
 
 interface Props {
-  movie: IMovie;
-  close: () => void;
-  addToFavorite: () => void;
+  addToFavorite: (movie: IMovie) => void;
   removeFormFavorite: (id: string) => void;
   favMovies: IMovies[];
 }
 
 const MovieDetails = (props: Props) => {
-  const { movie, close, addToFavorite, removeFormFavorite, favMovies } = props;
+  const { addToFavorite, removeFormFavorite, favMovies } = props;
+  const [movie, setMovie] = useState<IMovie>({
+    Actors: '',
+    Awards: '',
+    BoxOffice: '',
+    Country: '',
+    DVD: '',
+    Director: '',
+    Genre: '',
+    Language: '',
+    Metascore: '',
+    Plot: '',
+    Poster: '',
+    Production: '',
+    Rated: '',
+    Ratings: [],
+    Released: '',
+    Response: '',
+    Runtime: '',
+    Title: '',
+    Type: '',
+    Website: '',
+    Writer: '',
+    Year: '',
+    imdbID: '',
+    imdbRaring: '',
+    imdnVotes: ''
+  });
   const isFavorite = favMovies.find(m => m.imdbID === movie.imdbID);
 
   const classes = useStyles();
+  const movieId = useLocation().pathname.split('=')[1];
+
+  useEffect(() => {
+    const openMovieDetails = async (id: string) => {
+      try {
+        const { data } = await axios.get(`${apiURL}&i=${id}`);
+        setMovie(data);
+      } catch (e) {
+        console.log('err', e);
+      }
+    };
+    openMovieDetails(movieId);
+  }, []);
+
+  const pushToLocalStorage = useCallback(() => {
+    localStorage.setItem('favorite-movies', JSON.stringify(favMovies));
+  }, [favMovies.length]);
+
+  useEffect(() => {
+    pushToLocalStorage();
+  }, [favMovies.length]);
 
   return (
     <section>
@@ -106,9 +159,10 @@ const MovieDetails = (props: Props) => {
           className={classes.buttonBack}
           variant="contained"
           color="primary"
-          onClick={close}
         >
-          Back to Search
+          <Link className={classes.back} to="/">
+            Back to Search
+          </Link>
         </Button>
       </div>
       <div className={classes.root}>
@@ -122,7 +176,7 @@ const MovieDetails = (props: Props) => {
               {isFavorite ? (
                 <StarIcon onClick={() => removeFormFavorite(movie.imdbID)} />
               ) : (
-                <StarBorderIcon onClick={addToFavorite} />
+                <StarBorderIcon onClick={() => addToFavorite(movie)} />
               )}
             </Typography>
             <Typography variant="body1" component="p">

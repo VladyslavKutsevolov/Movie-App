@@ -1,18 +1,13 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState
-} from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core';
 
 import Search from './Search';
 import Results from './Results';
-import MovieDetails from './MovieDetails';
+import { IMovie } from './MovieDetails';
 import Pagination from './Pagination';
-import { FavMovie, IMovies, IState } from '../App';
+import { apiURL, FavMovie, IMovies, IState } from '../App';
+import AlertComponent from './Alert';
 
 const useStyles = makeStyles({
   results: {
@@ -24,31 +19,31 @@ const useStyles = makeStyles({
 
 interface Props {
   state: IState;
+  loading: boolean;
+  error: { msg: string };
+  setError: (prev: any) => void;
+  setLoading: (v: (prev: boolean) => boolean) => void;
   setState: (props: any) => void;
-  apiURL: string;
-  setMovieDetails: (val: (prev: boolean) => boolean) => void;
   moviesPerPage: number;
-  movieDetails: boolean;
-  openMovieDetails: (id: string) => void;
   slideSearch: boolean;
   setSlideSearch: (v: boolean) => void;
   setFavMovies: (movie: (prev: FavMovie) => { movies: IMovies[] }) => void;
   favMovies: FavMovie;
+  addToFavorite: (movie: IMovie) => void;
+  removeFormFavorite: (id: string) => void;
 }
 
 const Movies = (props: Props) => {
   const {
     state,
     setState,
-    apiURL,
-    setMovieDetails,
     moviesPerPage,
-    movieDetails,
-    openMovieDetails,
     slideSearch,
     setSlideSearch,
-    favMovies,
-    setFavMovies
+    loading,
+    setLoading,
+    error,
+    setError
   } = props;
   const classes = useStyles();
   const [page, setPage] = useState<number>(1);
@@ -59,46 +54,27 @@ const Movies = (props: Props) => {
 
   const onSearch = async (e: FormEvent) => {
     e.preventDefault();
-    setSlideSearch(true);
     setPage(1);
+    setLoading(prev => !prev);
+    setError({ msg: '' });
     try {
       const { data } = await axios.get(`${apiURL}&s=${state.search}`);
+
+      if (data.Error) {
+        setLoading(prev => !prev);
+        setError({ msg: data.Error });
+        setState({ ...state, movies: [], search: '' });
+        return;
+      }
+      setSlideSearch(true);
       setState({ ...state, movies: data.Search || [], search: '' });
+      setLoading(prev => !prev);
+      setError({ msg: '' });
     } catch (e) {
-      console.log('err', e);
+      setLoading(prev => !prev);
+      setError({ msg: e.message });
     }
   };
-
-  const addToFavorite = () => {
-    if (state.selected) {
-      setFavMovies(prev => ({
-        movies: [...prev.movies, state.selected]
-      }));
-    }
-  };
-
-  const removeFormFavorite = (id: string) => {
-    setFavMovies(prev => ({
-      movies: prev.movies.filter(movie => movie.imdbID !== id)
-    }));
-  };
-
-  const closeMovieDetails = () => {
-    setState({
-      ...state,
-      selected: {}
-    });
-    setMovieDetails(prev => !prev);
-  };
-
-  const pushToLocalStorage = useCallback(() => {
-    console.log('fire local');
-    localStorage.setItem('favorite-movies', JSON.stringify(favMovies));
-  }, [favMovies.movies.length]);
-
-  useEffect(() => {
-    pushToLocalStorage();
-  }, [favMovies.movies.length]);
 
   const indexOfLastPage = page * moviesPerPage;
   const indexOfFirstPoster = indexOfLastPage - moviesPerPage;
@@ -106,46 +82,36 @@ const Movies = (props: Props) => {
     indexOfFirstPoster,
     indexOfLastPage
   );
-  console.log('movieDetails', movieDetails);
+
+  if (loading && !error.msg) {
+    return <AlertComponent message="Loading" type="info" />;
+  }
+
+  console.log(error.msg);
 
   return (
     <div>
       <div>
-        {!movieDetails && (
-          <Search
-            value={state.search}
-            onChange={handleSearchInput}
-            search={onSearch}
-            slideSearch={slideSearch}
-          />
-        )}
+        <Search
+          value={state.search}
+          onChange={handleSearchInput}
+          search={onSearch}
+          slideSearch={slideSearch}
+        />
+        {error.msg && <AlertComponent message={error.msg} type="error" />}
       </div>
 
-      {movieDetails ? (
-        <MovieDetails
-          addToFavorite={addToFavorite}
-          removeFormFavorite={removeFormFavorite}
-          movie={state.selected}
-          favMovies={favMovies.movies}
-          close={closeMovieDetails}
-        />
-      ) : (
-        <div className={classes.results}>
-          <Results
+      <div className={classes.results}>
+        <Results moviesPerPage={moviesPerPage} movies={currMoviesPage} />
+        {state.movies.length ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            movies={state.movies}
             moviesPerPage={moviesPerPage}
-            movies={currMoviesPage}
-            chooseMovie={openMovieDetails}
           />
-          {state.movies.length ? (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              movies={state.movies}
-              moviesPerPage={moviesPerPage}
-            />
-          ) : null}
-        </div>
-      )}
+        ) : null}
+      </div>
     </div>
   );
 };

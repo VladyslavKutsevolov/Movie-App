@@ -30,12 +30,11 @@ const useStyles = makeStyles({
 
 interface Props {
   movie: IMovies;
-  chooseMovie: (id: string) => void;
   animateCard: boolean;
 }
 
 const Result = (props: Props) => {
-  const { movie, chooseMovie, animateCard } = props;
+  const { movie, animateCard } = props;
   const classes = useStyles();
   return (
     <Grow in={animateCard}>
@@ -47,7 +46,6 @@ const Result = (props: Props) => {
               image={movie.Poster}
               component="img"
               title="movie"
-              onClick={() => chooseMovie(movie.imdbID)}
             />
           </CardActionArea>
         </Card>

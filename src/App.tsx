@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { Container } from '@material-ui/core';
 import Movies from './components/Movies';
 import NavBar from './components/NavBar';
 import FavMovies from './components/FavMovies';
+import MovieDetails, { IMovie } from './components/MovieDetails';
 
 export interface IMovies {
   Poster: string;
@@ -18,44 +19,40 @@ export interface IMovies {
 export interface IState {
   search: string;
   movies: IMovies[];
-  selected: any;
 }
 
 export interface FavMovie {
   movies: IMovies[];
 }
 
+export const apiURL = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
+
 function App() {
   const [moviesPerPage] = useState<number>(6);
-  const [movieDetails, setMovieDetails] = useState<boolean>(false);
   const [slideSearch, setSlideSearch] = useState<boolean>(false);
   const [state, setState] = useState<IState>({
     search: '',
-    movies: [],
-    selected: {}
+    movies: []
   });
-
   const [favMovies, setFavMovies] = useState<FavMovie>({
     movies: []
   });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<{ msg: string }>({
+    msg: ''
+  });
 
-  const apiURL = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
-
-  const openMovieDetails = async (id: string) => {
-    try {
-      const { data } = await axios.get(`${apiURL}&i=${id}`);
-      setState({
-        ...state,
-        selected: data
-      });
-
-      setMovieDetails(prev => !prev);
-    } catch (e) {
-      console.log('err', e);
-    }
+  const addToFavorite = (movie: IMovie) => {
+    setFavMovies(prev => ({
+      movies: [...prev.movies, movie]
+    }));
   };
 
-  console.log('state', state);
+  const removeFormFavorite = (id: string) => {
+    setFavMovies(prev => ({
+      movies: prev.movies.filter(movie => movie.imdbID !== id)
+    }));
+  };
 
   return (
     <div className="App">
@@ -64,23 +61,30 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Movies
-              apiURL={apiURL}
-              movieDetails={movieDetails}
-              setMovieDetails={setMovieDetails}
+              loading={loading}
+              error={error}
+              setError={setError}
+              setLoading={setLoading}
               moviesPerPage={moviesPerPage}
               state={state}
               setState={setState}
-              openMovieDetails={openMovieDetails}
               slideSearch={slideSearch}
               setSlideSearch={setSlideSearch}
               favMovies={favMovies}
               setFavMovies={setFavMovies}
+              addToFavorite={addToFavorite}
+              removeFormFavorite={removeFormFavorite}
             />
           </Route>
           <Route path="/favorite">
-            <FavMovies
-              moviesPerPage={moviesPerPage}
-              chooseMovie={openMovieDetails}
+            <FavMovies moviesPerPage={moviesPerPage} />
+          </Route>
+
+          <Route path="/movie/:id">
+            <MovieDetails
+              addToFavorite={addToFavorite}
+              removeFormFavorite={removeFormFavorite}
+              favMovies={favMovies.movies}
             />
           </Route>
         </Switch>

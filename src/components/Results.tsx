@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 import { IMovies } from '../App';
 
@@ -15,12 +16,11 @@ const useStyles = makeStyles({
 
 interface Props {
   movies: IMovies[];
-  chooseMovie: (id: string) => void;
   moviesPerPage: number;
 }
 
 const Results = (props: Props) => {
-  const { movies, chooseMovie } = props;
+  const { movies } = props;
   const [animateCard, setAnimateCard] = useState<boolean>(false);
 
   const classes = useStyles();
@@ -33,12 +33,9 @@ const Results = (props: Props) => {
     <section>
       <div className={classes.grid}>
         {movies.map(movie => (
-          <Result
-            key={movie.imdbID}
-            animateCard={animateCard}
-            movie={movie}
-            chooseMovie={chooseMovie}
-          />
+          <Link key={movie.imdbID} to={`/movie/id=${movie.imdbID}`}>
+            <Result animateCard={animateCard} movie={movie} />
+          </Link>
         ))}
       </div>
     </section>
