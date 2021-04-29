@@ -8,13 +8,14 @@ const LoginButton = () => {
     <Button
       variant="contained"
       type="button"
+      style={{ background: '#F29E18', color: '#fff' }}
       onClick={() =>
         loginWithRedirect({
           redirectUri: 'http://localhost:3000/browse'
         })
       }
     >
-      Log In
+      LogIn
     </Button>
   );
 };
