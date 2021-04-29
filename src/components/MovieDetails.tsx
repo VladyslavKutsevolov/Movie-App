@@ -2,71 +2,94 @@ import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, Link } from 'react-router-dom';
 
-import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import {
+  Button,
+  createStyles,
+  Grid,
+  makeStyles,
+  Theme,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { apiURL, IMovies } from '../App';
 import AlertComponent from './Alert';
 
-const useStyles = makeStyles({
-  root: {
-    margin: '2rem',
-    padding: '1rem',
-    backgroundColor: '#454545'
-  },
-  poster: {
-    flexBasis: '20%'
-  },
-  movieDescription: {
-    flexBasis: '70%',
-    color: '#fff',
-    padding: '0 1rem'
-  },
-  movieDetails: {
-    flexDirection: 'column'
-  },
-  genre: {
-    backgroundColor: '#fff',
-    color: '#454545',
-    padding: '.5rem',
-    marginRight: '.5rem',
-    marginTop: '1rem',
-    borderRadius: '10px'
-  },
-  body1: {
-    marginTop: '1rem'
-  },
-  info: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  genreTitle: {
-    marginBottom: '.7rem'
-  },
-  plot: {
-    marginTop: '3rem'
-  },
-  backToSearch: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    justifyItems: 'center'
-  },
-  buttonBack: {
-    background: '#F29E18',
-    margin: '1rem 1rem 0 0',
-    '&:hover': {
-      background: '#c17b0b'
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      padding: '1rem',
+      backgroundColor: '#454545'
+    },
+    poster: {
+      [theme.breakpoints.down('sm')]: {
+        margin: 'auto'
+      }
+    },
+    movieDescription: {
+      color: '#fff',
+      padding: '0 1rem',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center'
+      }
+    },
+    movieDetails: {
+      flexDirection: 'column'
+    },
+    genre: {
+      backgroundColor: '#fff',
+      color: '#454545',
+      padding: '.5rem',
+      marginRight: '.5rem',
+      marginTop: '1rem',
+      borderRadius: '10px'
+    },
+    body1: {
+      marginTop: '1rem'
+    },
+    info: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    },
+    genreTitle: {
+      marginBottom: '.7rem'
+    },
+    plot: {
+      marginTop: '3rem'
+    },
+    backToSearch: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      justifyItems: 'center',
+      [theme.breakpoints.down('sm')]: {
+        justifyContent: 'center'
+      }
+    },
+    buttonBack: {
+      background: '#F29E18',
+      margin: '1rem 1rem 0 0',
+      '&:hover': {
+        background: '#c17b0b'
+      }
+    },
+    backBtn: {
+      color: '#fff',
+      textDecoration: 'none'
+    },
+    star: {
+      color: '#F29E18',
+      fontSize: '2.5rem'
+    },
+    gridInfo: {
+      [theme.breakpoints.up('md')]: {
+        flexWrap: 'nowrap'
+      }
     }
-  },
-  back: {
-    color: '#fff',
-    textDecoration: 'none'
-  },
-  star: {
-    color: '#F29E18'
-  }
-});
+  })
+);
 
 export interface IMovie {
   Actors: string;
@@ -148,6 +171,9 @@ const MovieDetails = (props: Props) => {
   const classes = useStyles();
   const movieId = useLocation().pathname.split('=')[1];
 
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
   useEffect(() => {
     setLoading(prev => !prev);
     setError({ msg: '' });
@@ -196,13 +222,13 @@ const MovieDetails = (props: Props) => {
               variant="contained"
               color="primary"
             >
-              <Link className={classes.back} to="/browse">
+              <Link className={classes.backBtn} to="/browse">
                 Back to Search
               </Link>
             </Button>
           </div>
           <div className={classes.root}>
-            <Grid container>
+            <Grid container className={classes.gridInfo}>
               <Grid item className={classes.poster}>
                 <img src={movie.Poster} alt="movie" />
               </Grid>
