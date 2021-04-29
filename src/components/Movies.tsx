@@ -66,6 +66,7 @@ const Movies = (props: Props) => {
         setLoading(prev => !prev);
         setError({ msg: data.Error });
         setState({ ...state, movies: [], search: '' });
+        setSlideSearch(false);
         return;
       }
 
