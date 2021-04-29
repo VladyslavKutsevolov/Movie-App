@@ -85,6 +85,10 @@ function App() {
               addToFavorite={addToFavorite}
               removeFormFavorite={removeFormFavorite}
               favMovies={favMovies.movies}
+              loading={loading}
+              error={error}
+              setError={setError}
+              setLoading={setLoading}
             />
           </Route>
         </Switch>

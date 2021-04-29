@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { Button, Snackbar } from '@material-ui/core';
+import { makeStyles, Snackbar } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  root: {
+    position: 'relative',
+    top: '.3rem',
+    marginBottom: '1rem'
+  },
+  snackBarPosition: {
+    width: '10rem'
+  }
+});
 
 interface Props {
   message: string;
@@ -14,8 +25,9 @@ function Alert(props: AlertProps) {
 const AlertComponent = (props: Props) => {
   const { message, type } = props;
   const [open, setOpen] = useState<boolean>(!!message || false);
+  const classes = useStyles();
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = () => {
     if (message === '') {
       return;
     }
@@ -23,8 +35,13 @@ const AlertComponent = (props: Props) => {
   };
 
   return (
-    <div>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    <div className={classes.root}>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        className={classes.root}
+      >
         <Alert
           onClose={handleClose}
           severity={type === 'info' ? 'info' : 'error'}

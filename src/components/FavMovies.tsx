@@ -13,12 +13,11 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  chooseMovie: (id: string) => void;
   moviesPerPage: number;
 }
 
 const FavMovies = (props: Props) => {
-  const { chooseMovie, moviesPerPage } = props;
+  const { moviesPerPage } = props;
   const [favMovies, setFavMovies] = useState<IMovies[]>([]);
 
   const classes = useStyles();
@@ -26,22 +25,26 @@ const FavMovies = (props: Props) => {
   useEffect(() => {
     const movieData = localStorage.getItem('favorite-movies');
     if (movieData) {
-      const { movies } = JSON.parse(movieData);
+      const movies = JSON.parse(movieData);
 
       setFavMovies(movies);
     }
   }, []);
+
+  if (!favMovies.length) {
+    return (
+      <Typography className={classes.title} variant="h5" component="p">
+        There is no favorite movies
+      </Typography>
+    );
+  }
 
   return (
     <div>
       <Typography className={classes.title} variant="h2" component="h1">
         Favorite Movies
       </Typography>
-      <Results
-        movies={favMovies}
-        chooseMovie={chooseMovie}
-        moviesPerPage={moviesPerPage}
-      />
+      <Results movies={favMovies} moviesPerPage={moviesPerPage} />
     </div>
   );
 };

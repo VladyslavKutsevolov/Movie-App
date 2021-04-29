@@ -11,6 +11,9 @@ const useStyles = makeStyles({
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(20rem, 1fr))',
     justifyItems: 'center'
+  },
+  title: {
+    textDecoration: 'none'
   }
 });
 
@@ -33,7 +36,11 @@ const Results = (props: Props) => {
     <section>
       <div className={classes.grid}>
         {movies.map(movie => (
-          <Link key={movie.imdbID} to={`/movie/id=${movie.imdbID}`}>
+          <Link
+            className={classes.title}
+            key={movie.imdbID}
+            to={`/movie/id=${movie.imdbID}`}
+          >
             <Result animateCard={animateCard} movie={movie} />
           </Link>
         ))}

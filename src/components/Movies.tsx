@@ -54,9 +54,11 @@ const Movies = (props: Props) => {
 
   const onSearch = async (e: FormEvent) => {
     e.preventDefault();
+
     setPage(1);
     setLoading(prev => !prev);
     setError({ msg: '' });
+
     try {
       const { data } = await axios.get(`${apiURL}&s=${state.search}`);
 
@@ -66,8 +68,10 @@ const Movies = (props: Props) => {
         setState({ ...state, movies: [], search: '' });
         return;
       }
+
       setSlideSearch(true);
       setState({ ...state, movies: data.Search || [], search: '' });
+
       setLoading(prev => !prev);
       setError({ msg: '' });
     } catch (e) {
@@ -86,8 +90,6 @@ const Movies = (props: Props) => {
   if (loading && !error.msg) {
     return <AlertComponent message="Loading" type="info" />;
   }
-
-  console.log(error.msg);
 
   return (
     <div>
