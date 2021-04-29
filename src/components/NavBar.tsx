@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import {
   AppBar,
-  Button,
   makeStyles,
   Theme,
   Toolbar,
@@ -11,6 +10,7 @@ import {
 } from '@material-ui/core';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import StarIcon from '@material-ui/icons/Star';
+import AuthNav from './auth/AuthNav';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -51,7 +51,7 @@ const NavBar = () => {
         <TheatersIcon />
         <div className={classes.navLinks}>
           <Typography variant="h5">
-            <Link to="/" className={classes.logo}>
+            <Link to="/browse" className={classes.logo}>
               MOOVIX
             </Link>
           </Typography>
@@ -63,7 +63,7 @@ const NavBar = () => {
             </Link>
           </Typography>
         </div>
-        <Button color="inherit">Login</Button>
+        <AuthNav />
       </Toolbar>
     </AppBar>
   );

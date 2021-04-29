@@ -196,7 +196,7 @@ const MovieDetails = (props: Props) => {
               variant="contained"
               color="primary"
             >
-              <Link className={classes.back} to="/">
+              <Link className={classes.back} to="/browse">
                 Back to Search
               </Link>
             </Button>

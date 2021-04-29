@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Switch, Route, useHistory } from 'react-router-dom';
-import axios from 'axios';
+import { Switch, Route } from 'react-router-dom';
 
 import { Container } from '@material-ui/core';
 import Movies from './components/Movies';
 import NavBar from './components/NavBar';
 import FavMovies from './components/FavMovies';
 import MovieDetails, { IMovie } from './components/MovieDetails';
+import HeroSection from './components/HeroSection';
 
 export interface IMovies {
   Poster: string;
@@ -60,6 +60,9 @@ function App() {
       <Container>
         <Switch>
           <Route exact path="/">
+            <HeroSection />
+          </Route>
+          <Route path="/browse">
             <Movies
               loading={loading}
               error={error}

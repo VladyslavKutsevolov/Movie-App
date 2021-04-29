@@ -132,6 +132,7 @@
       "depth": 3
     }],
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "no-debugger": 0
+    "no-debugger": 0,
+    "react/prop-types": 0
   }
 }
