@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 import { makeStyles, Typography } from '@material-ui/core';
 import Results from './Results';
 import { IMovies } from '../App';
+import AlertComponent from './Alert';
 
 const useStyles = makeStyles({
   title: {
@@ -49,4 +51,9 @@ const FavMovies = (props: Props) => {
   );
 };
 
-export default FavMovies;
+export default withAuthenticationRequired(FavMovies, {
+  onRedirecting: () => <AlertComponent message="loading" type="info" />,
+  loginOptions: {
+    redirectUri: 'http://localhost:3000/browse'
+  }
+});

@@ -51,7 +51,7 @@ const NavBar = () => {
         <TheatersIcon />
         <div className={classes.navLinks}>
           <Typography variant="h5">
-            <Link to="/" className={classes.logo}>
+            <Link to="/browse" className={classes.logo}>
               MOOVIX
             </Link>
           </Typography>

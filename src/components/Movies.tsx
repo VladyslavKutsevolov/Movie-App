@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 import Search from './Search';
 import Results from './Results';
@@ -119,4 +120,9 @@ const Movies = (props: Props) => {
   );
 };
 
-export default Movies;
+export default withAuthenticationRequired(Movies, {
+  onRedirecting: () => <AlertComponent message="loading" type="info" />,
+  loginOptions: {
+    redirectUri: 'http://localhost:3000/browse'
+  }
+});
