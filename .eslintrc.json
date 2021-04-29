@@ -131,6 +131,7 @@
       "controlComponents": ["CustomInput"],
       "depth": 3
     }],
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-debugger": 0
   }
 }
