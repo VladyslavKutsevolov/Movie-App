@@ -24,6 +24,15 @@ const useStyles = makeStyles({
     }
   }
 });
+let redirectURI: string;
+
+if (process.env.NODE_ENV === 'production') {
+  if (process.env.REACT_APP_AUTH0_REDIRECT_URI) {
+    redirectURI = process.env.REACT_APP_AUTH0_REDIRECT_URI;
+  }
+} else {
+  redirectURI = 'http://localhost:3000/browse';
+}
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
@@ -36,7 +45,7 @@ const LoginButton = () => {
       style={{ background: '#F29E18', color: '#fff', fontWeight: 'bold' }}
       onClick={() =>
         loginWithRedirect({
-          redirectUri: 'http://localhost:3000/browse'
+          redirectUri: redirectURI
         })
       }
     >

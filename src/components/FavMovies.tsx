@@ -87,8 +87,5 @@ const FavMovies = (props: Props) => {
 };
 
 export default withAuthenticationRequired(FavMovies, {
-  onRedirecting: () => <AlertComponent message="loading" type="info" />,
-  loginOptions: {
-    redirectUri: 'http://localhost:3000/browse'
-  }
+  onRedirecting: () => <AlertComponent message="loading" type="info" />
 });
