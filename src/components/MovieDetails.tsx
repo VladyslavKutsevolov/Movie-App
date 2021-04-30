@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation, Link, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import {
   Button,
@@ -160,7 +160,6 @@ const MovieDetails = (props: Props) => {
     favMovies,
     error,
     setError,
-    loading,
     setLoading
   } = props;
   const [movie, setMovie] = useState<IMovie>({

@@ -14,9 +14,9 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 // this gets around the 'auth0-spa-js must run on a secure origin' error
-window.crypto = <Crypto>{
-  getRandomValues<T>(array: T): T | undefined {
-    return undefined;
-  },
-  subtle: {}
-};
+// window.crypto = <Crypto>{
+//   getRandomValues<T>(array: T): T | undefined {
+//     return undefined;
+//   },
+//   subtle: {}
+// };

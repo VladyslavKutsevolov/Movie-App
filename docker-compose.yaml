@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  client:
+    container_name: moovix_client
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+    - './src:/app/src'
+    ports:
+    - "3000:3000"
+    env_file:
+      - './.env.local'
+    command: yarn start
