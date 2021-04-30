@@ -41,7 +41,6 @@ const Movies = (props: Props) => {
     moviesPerPage,
     slideSearch,
     setSlideSearch,
-    loading,
     setLoading,
     error,
     setError
