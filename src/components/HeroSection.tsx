@@ -1,31 +1,36 @@
 import React from 'react';
-import { makeStyles, Typography } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import LoginButton from './auth/LoginButton';
 
-const useStyles = makeStyles({
-  video: {
-    position: 'absolute',
-    width: '100%',
-    left: '50%',
-    top: '50%',
-    height: '100%',
-    objectFit: 'cover',
-    transform: 'translate(-50%, -50%)',
-    zIndex: -1
-  },
-  intro: {
-    color: '#fff',
-    textAlign: 'center'
-  },
-  wrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '15rem'
-  },
-  button: {
-    marginTop: '2rem'
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    video: {
+      position: 'absolute',
+      width: '100%',
+      left: '50%',
+      top: '50%',
+      height: '100%',
+      objectFit: 'cover',
+      transform: 'translate(-50%, -50%)',
+      zIndex: -1
+    },
+    intro: {
+      color: '#fff',
+      textAlign: 'center'
+    },
+    wrapper: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '15rem',
+      [theme.breakpoints.down('xs')]: {
+        marginTop: '10rem'
+      }
+    },
+    button: {
+      marginTop: '2rem'
+    }
+  })
+);
 
 const HeroSection = () => {
   const classes = useStyles();

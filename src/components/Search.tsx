@@ -1,34 +1,48 @@
 import React, { ChangeEvent } from 'react';
-import { InputAdornment, makeStyles, TextField } from '@material-ui/core';
+import {
+  createStyles,
+  InputAdornment,
+  makeStyles,
+  TextField,
+  Theme
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-const useStyles = makeStyles({
-  textField: {
-    width: '100%',
-    backgroundColor: '#fff',
-    borderRadius: '4px'
-  },
-  form: {
-    width: '60%'
-  },
-  textFieldSection: {
-    marginTop: '20rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  slideUp: {
-    marginTop: '3rem',
-    marginBottom: '2rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    transaction: 'all 1s ease-in-out'
-  },
-  searchIcon: {
-    position: 'absolute'
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    textField: {
+      width: '100%',
+      backgroundColor: '#fff',
+      borderRadius: '4px'
+    },
+    form: {
+      width: '60%',
+      [theme.breakpoints.down('sm')]: {
+        width: '90%'
+      }
+    },
+    textFieldSection: {
+      marginTop: '20rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: '10rem'
+      }
+    },
+    slideUp: {
+      marginTop: '3rem',
+      marginBottom: '2rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      transaction: 'all 1s ease-in-out'
+    },
+    searchIcon: {
+      position: 'absolute'
+    }
+  })
+);
 
 interface IProps {
   value: string;
