@@ -9,6 +9,7 @@ import MovieDetails, { IMovie } from './components/MovieDetails';
 import HeroSection from './components/HeroSection';
 import Footer from './components/Footer';
 import AlertComponent from './components/Alert';
+import NotFoundPage from './components/NotFoundPage';
 
 export interface IMovies {
   Poster: string;
@@ -97,6 +98,7 @@ function App() {
               setLoading={setLoading}
             />
           </Route>
+          <Route path="*" component={NotFoundPage} />
         </Switch>
       </Container>
       <Footer />
