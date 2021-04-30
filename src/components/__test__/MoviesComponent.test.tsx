@@ -27,6 +27,7 @@ describe('Movies Component', () => {
 
     await waitFor(() => {
       const input = screen.findByPlaceholderText(/search for a movie/i);
+      // screen.debug(input);
     });
   });
 });

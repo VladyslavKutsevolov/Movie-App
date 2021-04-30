@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import FavMovies from './components/FavMovies';
 import MovieDetails, { IMovie } from './components/MovieDetails';
 import HeroSection from './components/HeroSection';
+import Footer from './components/Footer';
 
 export interface IMovies {
   Poster: string;

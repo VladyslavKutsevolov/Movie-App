@@ -23,21 +23,17 @@ const useStyles = makeStyles((theme: Theme) =>
     menuButton: {
       marginRight: theme.spacing(2)
     },
-    logo: {
-      flexGrow: 1,
-      color: '#fff',
-      textDecoration: 'none',
-      fontSize: '1.7rem'
-    },
+
     favorite: {
       display: 'flex',
       alignItems: 'center',
       marginLeft: '2rem',
       marginTop: '.4rem',
-      color: '#fff',
+      color: '#FBAB7E',
+      fontSize: '2rem',
       textDecoration: 'none',
       '&:hover': {
-        color: '#F29E18'
+        color: '#fff'
       },
       [theme.breakpoints.down('sm')]: {
         marginLeft: '1rem'
@@ -46,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
     navLinks: {
       display: 'flex',
       flexGrow: 1
+    },
+    icon: {
+      fontSize: '2.5rem'
     }
   })
 );
@@ -57,18 +56,12 @@ const NavBar = () => {
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
-        <TheatersIcon />
         <div className={classes.navLinks}>
-          <Typography variant="h5">
-            <Link to="/browse" className={classes.logo}>
-              MOOVIX
-            </Link>
-          </Typography>
           {isAuthenticated ? (
             <>
-              <Typography variant="h5">
+              <Typography variant="h4" component="h3">
                 <Link to="/favorite" className={classes.favorite}>
-                  <StarIcon />
+                  <StarIcon className={classes.icon} />
                   Favorite
                 </Link>
               </Typography>{' '}

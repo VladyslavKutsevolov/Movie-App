@@ -12,11 +12,12 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
       objectFit: 'cover',
       transform: 'translate(-50%, -50%)',
-      zIndex: -1
+      zIndex: 1
     },
     intro: {
       color: '#fff',
-      textAlign: 'center'
+      textAlign: 'center',
+      zIndex: 2
     },
     wrapper: {
       display: 'flex',
@@ -26,8 +27,25 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: '10rem'
       }
     },
+    buttonContainer: {
+      marginTop: '2rem',
+      display: 'flex',
+      justifyContent: 'center'
+    },
     button: {
-      marginTop: '2rem'
+      fontSize: '3rem'
+    },
+    title: {
+      fontSize: '6rem',
+      fontWeight: 'bold',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '3rem'
+      }
+    },
+    text: {
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '1.3rem'
+      }
     }
   })
 );
@@ -42,13 +60,13 @@ const HeroSection = () => {
         <source src={videoPath} type="video/mp4" />
       </video>
       <div className={classes.intro}>
-        <Typography variant="h2" component="h1">
+        <Typography className={classes.title} variant="h2" component="h1">
           Welcome to MOOVIX
         </Typography>
-        <Typography variant="h4" component="p">
+        <Typography className={classes.text} variant="h4" component="p">
           Place where you can browse your favorite movies
         </Typography>
-        <div className={classes.button}>
+        <div className={classes.buttonContainer}>
           <LoginButton />
         </div>
       </div>

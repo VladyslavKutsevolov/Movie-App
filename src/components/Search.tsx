@@ -4,9 +4,13 @@ import {
   InputAdornment,
   makeStyles,
   TextField,
-  Theme
+  Theme,
+  Toolbar,
+  Typography
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { Link } from 'react-router-dom';
+import TheatersIcon from '@material-ui/icons/Theaters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,10 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     textFieldSection: {
-      marginTop: '20rem',
+      marginTop: '15rem',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      flexDirection: 'column',
       [theme.breakpoints.down('sm')]: {
         marginTop: '10rem'
       }
@@ -36,10 +41,35 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      flexDirection: 'column',
+
       transaction: 'all 1s ease-in-out'
     },
     searchIcon: {
       position: 'absolute'
+    },
+    logo: {
+      flexGrow: 1,
+      color: '#fff',
+      textDecoration: 'none',
+      fontSize: '7rem',
+      fontWeight: 'bold',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '3rem'
+      }
+    },
+    icon: {
+      flexGrow: 1,
+      fontSize: '8rem',
+      color: '#FBAB7E',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '4rem'
+      }
+    },
+    logoWrap: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
     }
   })
 );
@@ -59,6 +89,12 @@ const Search = (props: IProps) => {
     <section
       className={slideSearch ? classes.slideUp : classes.textFieldSection}
     >
+      <Typography className={classes.logoWrap} variant="h2" component="h2">
+        <TheatersIcon className={classes.icon} />
+        <Link to="/browse" className={classes.logo}>
+          MOOVIX
+        </Link>
+      </Typography>
       <form onSubmit={search} className={classes.form}>
         <TextField
           required
