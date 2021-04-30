@@ -10,3 +10,8 @@ publish = "build/"
 
 # Default build command.
 command = "CI= yarn build"
+
+[[redirects]]
+from = "/*"
+to = "index.html"
+status = 200
