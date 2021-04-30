@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       [theme.breakpoints.down('sm')]: {
         marginTop: '10rem'
+      },
+      [theme.breakpoints.down('lg')]: {
+        marginTop: '10rem'
       }
     },
     slideUp: {

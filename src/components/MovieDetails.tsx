@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#fff',
       padding: '0 1rem',
       [theme.breakpoints.down('sm')]: {
-        textAlign: 'left'
+        textAlign: 'left',
+        marginBottom: '2rem'
       }
     },
     movieDetails: {
@@ -59,7 +60,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '.7rem'
     },
     plot: {
-      marginTop: '3rem'
+      marginTop: '3rem',
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: '3rem'
+      }
     },
     backToSearch: {
       display: 'flex',

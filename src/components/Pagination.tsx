@@ -6,7 +6,11 @@ import { IMovies } from '../App';
 
 const useStyles = makeStyles({
   pagination: {
-    margin: '1rem auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '5rem',
+    marginTop: '2rem',
     color: '#fff'
   },
   ul: {
