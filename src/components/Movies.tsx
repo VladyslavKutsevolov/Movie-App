@@ -34,16 +34,6 @@ interface Props {
   removeFormFavorite: (id: string) => void;
 }
 
-let redirectURI: string;
-
-if (process.env.NODE_ENV === 'production') {
-  if (process.env.REACT_APP_AUTH0_REDIRECT_URI) {
-    redirectURI = process.env.REACT_APP_AUTH0_REDIRECT_URI;
-  }
-} else {
-  redirectURI = 'http://localhost:3000/browse';
-}
-
 const Movies = (props: Props) => {
   const {
     state,

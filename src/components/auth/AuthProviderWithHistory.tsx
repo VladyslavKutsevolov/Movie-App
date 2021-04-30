@@ -22,10 +22,6 @@ const Auth0ProviderWithHistory = ({ children }: { children: ReactNode }) => {
     history.push(appState?.returnTo || window.location.pathname);
   };
 
-  // console.log('window.location.origin', window.location.origin);
-
-  console.log('redirectURI', redirectURI);
-
   return (
     <Auth0Provider
       domain={domain || ''}
