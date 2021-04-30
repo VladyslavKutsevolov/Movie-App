@@ -8,10 +8,14 @@ const Footer = () => {
         background: '#6D5959',
         position: 'absolute',
         bottom: '0',
-        width: '100%'
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff'
       }}
     >
-      Copyright
+      Author: Vladyslav Kutsevolov
     </div>
   );
 };
