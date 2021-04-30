@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '1rem 1rem 0 0',
       '&:hover': {
         background: '#c17b0b'
+      },
+      [theme.breakpoints.down('xs')]: {
+        marginRight: '0'
       }
     },
     backBtn: {
@@ -86,6 +89,15 @@ const useStyles = makeStyles((theme: Theme) =>
     gridInfo: {
       [theme.breakpoints.up('md')]: {
         flexWrap: 'nowrap'
+      }
+    },
+    addToFav: {
+      display: 'flex',
+      alignItems: 'center',
+      color: '#F29E18',
+      marginBottom: '1rem',
+      [theme.breakpoints.down('sm')]: {
+        justifyContent: 'center'
       }
     }
   })
@@ -235,6 +247,13 @@ const MovieDetails = (props: Props) => {
               <Grid item className={classes.movieDescription}>
                 <Typography variant="h3" component="h2">
                   {movie.Title}
+                </Typography>
+                <Typography
+                  className={classes.addToFav}
+                  variant="body1"
+                  component="p"
+                >
+                  {' '}
                   {isFavorite ? (
                     <StarIcon
                       className={classes.star}
@@ -245,7 +264,8 @@ const MovieDetails = (props: Props) => {
                       className={classes.star}
                       onClick={() => addToFavorite(movie)}
                     />
-                  )}
+                  )}{' '}
+                  Add to Favorite
                 </Typography>
                 <Typography variant="body1" component="p">
                   <b>Rated:</b> {movie.Rated}
