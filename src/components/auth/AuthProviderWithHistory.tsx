@@ -18,6 +18,7 @@ const Auth0ProviderWithHistory = ({ children }: { children: ReactNode }) => {
       clientId={clientId || ''}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
+      cacheLocation="localstorage"
     >
       {children}
     </Auth0Provider>
