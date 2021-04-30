@@ -89,10 +89,6 @@ const Movies = (props: Props) => {
     indexOfLastPage
   );
 
-  if (loading && !error.msg) {
-    return <AlertComponent message="Loading" type="info" />;
-  }
-
   return (
     <div>
       <div>

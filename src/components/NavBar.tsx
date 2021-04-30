@@ -10,7 +10,6 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
-import TheatersIcon from '@material-ui/icons/Theaters';
 import StarIcon from '@material-ui/icons/Star';
 import AuthNav from './auth/AuthNav';
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useHistory } from 'react-router-dom';
 
 import {
   Button,
@@ -12,8 +12,10 @@ import {
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import { apiURL, IMovies } from '../App';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AlertComponent from './Alert';
+
+import { apiURL, IMovies } from '../App';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#fff',
       padding: '0 1rem',
       [theme.breakpoints.down('sm')]: {
-        textAlign: 'center'
+        textAlign: 'left'
       }
     },
     movieDetails: {
@@ -61,11 +63,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     backToSearch: {
       display: 'flex',
-      justifyContent: 'flex-end',
-      justifyItems: 'center',
-      [theme.breakpoints.down('sm')]: {
-        justifyContent: 'center'
-      }
+      justifyContent: 'flex-start',
+      justifyItems: 'center'
     },
     buttonBack: {
       background: '#F29E18',
@@ -79,7 +78,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     backBtn: {
       color: '#fff',
-      textDecoration: 'none'
+      marginTop: '1rem',
+      '&:hover': {
+        color: '#FBAB7E'
+      }
     },
     star: {
       color: '#F29E18',
@@ -98,7 +100,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '1rem',
       cursor: 'pointer',
       [theme.breakpoints.down('sm')]: {
-        justifyContent: 'center'
+        justifyContent: 'left'
+      }
+    },
+    title: {
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '2.5rem'
       }
     }
   })
@@ -182,7 +189,8 @@ const MovieDetails = (props: Props) => {
   const isFavorite = favMovies.find(m => m.imdbID === movie.imdbID);
 
   const classes = useStyles();
-  const movieId = useLocation().pathname.split('=')[1];
+  const [, movieId] = useLocation().pathname.split('=');
+  const history = useHistory();
 
   useEffect(() => {
     setLoading(prev => !prev);
@@ -208,7 +216,6 @@ const MovieDetails = (props: Props) => {
   }, []);
 
   const pushToLocalStorage = useCallback(() => {
-    console.log('fire event');
     localStorage.setItem('favorite-movies', JSON.stringify(favMovies));
   }, [favMovies.length]);
 
@@ -216,25 +223,21 @@ const MovieDetails = (props: Props) => {
     pushToLocalStorage();
   }, [favMovies.length]);
 
-  if (loading && !error.msg) {
-    return <AlertComponent message="Loading" type="info" />;
-  }
-
   return (
     <section>
       {error.msg && <AlertComponent message={error.msg} type="error" />}
       {movie.Title ? (
         <>
           <div className={classes.backToSearch}>
-            <Button
-              className={classes.buttonBack}
-              variant="contained"
-              color="primary"
-            >
-              <Link className={classes.backBtn} to="/browse">
-                Back to Search
-              </Link>
-            </Button>
+            <div>
+              <Button
+                className={classes.backBtn}
+                onClick={() => history.goBack()}
+              >
+                <ChevronLeftIcon />
+                BACK
+              </Button>
+            </div>
           </div>
           <div className={classes.root}>
             <Grid container className={classes.gridInfo}>
@@ -242,7 +245,11 @@ const MovieDetails = (props: Props) => {
                 <img src={movie.Poster} alt="movie" />
               </Grid>
               <Grid item className={classes.movieDescription}>
-                <Typography variant="h3" component="h2">
+                <Typography
+                  className={classes.title}
+                  variant="h3"
+                  component="h2"
+                >
                   {movie.Title}
                 </Typography>
                 {!isFavorite ? (

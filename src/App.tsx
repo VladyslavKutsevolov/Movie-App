@@ -8,6 +8,7 @@ import FavMovies from './components/FavMovies';
 import MovieDetails, { IMovie } from './components/MovieDetails';
 import HeroSection from './components/HeroSection';
 import Footer from './components/Footer';
+import AlertComponent from './components/Alert';
 
 export interface IMovies {
   Poster: string;
@@ -59,6 +60,7 @@ function App() {
     <div className="App">
       <NavBar />
       <Container>
+        {loading && <AlertComponent message="Loading" type="info" />}
         <Switch>
           <Route exact path="/">
             <HeroSection />

@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: '0.5s',
       backgroundSize: '200% auto',
       color: 'white',
-      boxShadow: '0 0 20px #eee',
       borderRadius: '10px',
       display: 'block',
       backgroundImage:

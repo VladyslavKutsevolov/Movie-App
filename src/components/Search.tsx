@@ -5,7 +5,6 @@ import {
   makeStyles,
   TextField,
   Theme,
-  Toolbar,
   Typography
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
