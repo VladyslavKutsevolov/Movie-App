@@ -280,8 +280,7 @@ const MovieDetails = (props: Props) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="body1" component="span">
-                      <b>Director:</b>
-                      {movie.Director}
+                      <b>Director:</b> {movie.Director}
                     </Typography>
                   </Grid>
                   <Grid item>
