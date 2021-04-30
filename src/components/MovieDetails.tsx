@@ -8,9 +8,7 @@ import {
   Grid,
   makeStyles,
   Theme,
-  Typography,
-  useMediaQuery,
-  useTheme
+  Typography
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -21,7 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: '1rem',
-      backgroundColor: '#454545'
+      backgroundColor: '#454545',
+      width: '100%'
     },
     poster: {
       [theme.breakpoints.down('sm')]: {
@@ -84,7 +83,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     star: {
       color: '#F29E18',
-      fontSize: '2.5rem'
+      fontSize: '2.5rem',
+      cursor: 'pointer'
     },
     gridInfo: {
       [theme.breakpoints.up('md')]: {
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       color: '#F29E18',
       marginBottom: '1rem',
+      cursor: 'pointer',
       [theme.breakpoints.down('sm')]: {
         justifyContent: 'center'
       }
@@ -183,9 +184,6 @@ const MovieDetails = (props: Props) => {
   const classes = useStyles();
   const movieId = useLocation().pathname.split('=')[1];
 
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
-
   useEffect(() => {
     setLoading(prev => !prev);
     setError({ msg: '' });
@@ -227,7 +225,6 @@ const MovieDetails = (props: Props) => {
       {error.msg && <AlertComponent message={error.msg} type="error" />}
       {movie.Title ? (
         <>
-          {' '}
           <div className={classes.backToSearch}>
             <Button
               className={classes.buttonBack}
@@ -248,25 +245,26 @@ const MovieDetails = (props: Props) => {
                 <Typography variant="h3" component="h2">
                   {movie.Title}
                 </Typography>
-                <Typography
-                  className={classes.addToFav}
-                  variant="body1"
-                  component="p"
-                >
-                  {' '}
-                  {isFavorite ? (
-                    <StarIcon
-                      className={classes.star}
-                      onClick={() => removeFormFavorite(movie.imdbID)}
-                    />
-                  ) : (
-                    <StarBorderIcon
-                      className={classes.star}
-                      onClick={() => addToFavorite(movie)}
-                    />
-                  )}{' '}
-                  Add to Favorite
-                </Typography>
+                {!isFavorite ? (
+                  <Typography
+                    className={classes.addToFav}
+                    variant="body1"
+                    component="p"
+                    onClick={() => addToFavorite(movie)}
+                  >
+                    <StarBorderIcon className={classes.star} />
+                    Add to Favorite
+                  </Typography>
+                ) : (
+                  <Typography
+                    className={classes.addToFav}
+                    variant="body1"
+                    component="p"
+                    onClick={() => removeFormFavorite(movie.imdbID)}
+                  >
+                    <StarIcon className={classes.star} /> Remove from Favorite
+                  </Typography>
+                )}
                 <Typography variant="body1" component="p">
                   <b>Rated:</b> {movie.Rated}
                 </Typography>
