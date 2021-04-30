@@ -27,7 +27,7 @@ export interface FavMovie {
   movies: IMovies[];
 }
 
-export const apiURL = `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
+export const apiURL = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
 
 function App() {
   const [moviesPerPage] = useState<number>(6);
