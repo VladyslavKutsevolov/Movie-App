@@ -84,7 +84,7 @@ function App() {
             />
           </Route>
           <Route path="/favorite">
-            <FavMovies moviesPerPage={moviesPerPage} />
+            <FavMovies setError={setError} moviesPerPage={moviesPerPage} />
           </Route>
 
           <Route path="/movie/:id">

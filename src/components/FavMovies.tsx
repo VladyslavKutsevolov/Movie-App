@@ -36,16 +36,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   moviesPerPage: number;
+  setError: (v: { msg: string }) => void;
 }
 
 const FavMovies = (props: Props) => {
-  const { moviesPerPage } = props;
+  const { moviesPerPage, setError } = props;
   const [favMovies, setFavMovies] = useState<IMovies[]>([]);
   const history = useHistory();
 
   const classes = useStyles();
 
   useEffect(() => {
+    setError({ msg: '' });
     const movieData = localStorage.getItem('favorite-movies');
     if (movieData) {
       const movies = JSON.parse(movieData);
