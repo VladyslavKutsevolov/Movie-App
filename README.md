@@ -2,9 +2,11 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 
-This app was developed to query the already existing [OMDB]("http://www.omdbapi.com/") (The Open Movie Database) API, which is a RESTful web service to obtain movie information.
+This app was developed to query the already existing [OMDB](http://www.omdbapi.com/) (The Open Movie Database) API, which is a RESTful web service to obtain movie information.
 
-##Getting started
+[[ Live Version ](https://moovix.netlify.app/)]
+
+## Getting started
 
 Clone the repo:
 ```bash
